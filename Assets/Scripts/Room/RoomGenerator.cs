@@ -42,7 +42,7 @@ public class RoomGenerator : MonoBehaviour
                 GameObject go = Instantiate(civilianPrefab);
                 Civilian civilian = go.GetComponent<Civilian>();
                 civilian.SetRoom(room);
-                go.transform.position = new Vector3(spawnPos.x, spawnPos.y, -1);
+                go.transform.position = new Vector3(spawnPos.x, spawnPos.y, 0);
             }
         }
     }

@@ -32,24 +32,22 @@ public class Player : MonoBehaviour
     void Update()
     {
         moveDirection = Quaternion.Euler(0, 0, -45) * -playerControls.ReadValue<Vector2>();
-        Debug.Log(moveDirection);
     }
 
-    Vector2 velocity = Vector2.zero, resistance = Vector2.zero;
+    Vector2 velocity = Vector2.zero;
     void FixedUpdate()
     {
         Collider2D[] around = Physics2D.OverlapCircleAll(transform.position, collider.radius, 1 << 7);
         velocity = Vector2.Lerp(velocity, moveDirection, 3 * Time.deltaTime);
-        resistance = Vector2.Lerp(resistance, Vector2.zero, 0.2f * Time.deltaTime);
-        foreach (Collider2D collider in around)
+        foreach (Collider2D other in around)
         {
-            Civilian c = collider.GetComponent<Civilian>();
+            Civilian c = other.GetComponent<Civilian>();
             if (c!=null)
             {
-                resistance += c.Collision(transform.position, velocity + resistance, 0.2f);
-                Debug.Log(resistance+","+velocity);
+                velocity += c.Collision(transform.position, velocity, 1f);
+                transform.position = (Vector2)other.transform.position + (collider.radius + Civilian.radius) * ((Vector2)(transform.position - other.transform.position)).normalized;
             }
         }
-        transform.position += (Vector3) (velocity + resistance) * speed * Time.deltaTime;
+        transform.position += (Vector3) velocity * speed * Time.deltaTime;
     }
 }

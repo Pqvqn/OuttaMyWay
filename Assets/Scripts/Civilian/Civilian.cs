@@ -7,6 +7,7 @@ public class Civilian : MonoBehaviour
     private CircleCollider2D collider;
     private static readonly float speed = 5;
     private static readonly float mass = 1;
+    public static readonly float radius = 0.5f;
     private IRoom currentRoom;
 
     void Awake()
@@ -37,7 +38,7 @@ public class Civilian : MonoBehaviour
         }
         Vector2 diffProj = dot * diff;
         Vector2 diffProjOther = dotOther * diff;
-        Vector2 finalDiffVelocity = Vector2.Lerp(diffProjOther, diffProjOther, mass / (mass + otherMass));
+        Vector2 finalDiffVelocity = Vector2.Lerp(diffProjOther, diffProj, mass / (mass + otherMass));
         velocity = velocity - diffProj + finalDiffVelocity;
         return finalDiffVelocity - diffProjOther;
     }
