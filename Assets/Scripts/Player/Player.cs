@@ -6,9 +6,9 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     private CircleCollider2D collider;
-    private static readonly float speed = 0.5f;
+    private static readonly float speed = 5f;
     public InputAction playerControls;
-    Vector3 moveDirection = Vector3.zero;
+    Vector2 moveDirection = Vector2.zero;
 
     private void OnEnable()
     {
@@ -35,8 +35,21 @@ public class Player : MonoBehaviour
         Debug.Log(moveDirection);
     }
 
+    Vector2 velocity = Vector2.zero, resistance = Vector2.zero;
     void FixedUpdate()
     {
-        transform.position +=  moveDirection * speed;
+        Collider2D[] around = Physics2D.OverlapCircleAll(transform.position, collider.radius, 1 << 7);
+        velocity = Vector2.Lerp(velocity, moveDirection, 3 * Time.deltaTime);
+        resistance = Vector2.Lerp(resistance, Vector2.zero, 0.2f * Time.deltaTime);
+        foreach (Collider2D collider in around)
+        {
+            Civilian c = collider.GetComponent<Civilian>();
+            if (c!=null)
+            {
+                resistance += c.Collision(transform.position, velocity + resistance, 0.2f);
+                Debug.Log(resistance+","+velocity);
+            }
+        }
+        transform.position += (Vector3) (velocity + resistance) * speed * Time.deltaTime;
     }
 }
