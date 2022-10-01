@@ -6,16 +6,16 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     private CircleCollider2D collider;
-    private static readonly float speed = 2;
+    private static readonly float speed = 0.5f;
     public InputAction playerControls;
-    Vector2 moveDirection = Vector2.zero;
+    Vector3 moveDirection = Vector3.zero;
 
-    private void onEnable()
+    private void OnEnable()
     {
         playerControls.Enable();
     }
 
-    private void onDisable()
+    private void OnDisable()
     {
         playerControls.Disable();
     }
@@ -31,11 +31,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        moveDirection = playerControls.ReadValue<Vector2>();
+        //moveDirection = Camera.main.transform.TransformDirection(playerControls.ReadValue<Vector2>()).normalized;
+        moveDirection = Quaternion.Euler(0, 0, -45) * -playerControls.ReadValue<Vector2>();
+        Debug.Log(moveDirection);
     }
 
     void FixedUpdate()
     {
-        
+        transform.position +=  moveDirection * speed;
     }
 }
