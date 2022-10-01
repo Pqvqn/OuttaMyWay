@@ -16,9 +16,9 @@ public class Civilian : MonoBehaviour
     {
     }
 
-    public void Avoid(Civilian other)
+    public void Avoid(Civilian other, float alpha)
     {
-        velocity = ((Vector2)Vector3.Cross(other.transform.position - transform.position, Vector3.forward)).normalized;
+        velocity = Vector2.Lerp(velocity, ((Vector2)Vector3.Cross(other.transform.position - transform.position, Vector3.forward)).normalized * 0.5f, alpha);
     }
 
     private float patience = 0;
@@ -31,33 +31,34 @@ public class Civilian : MonoBehaviour
             target = new Vector2(Random.Range(-10, 10), Random.Range(-10, 10));
             patience = Random.Range(2f, 7f);
         }
-        Collider2D[] colliders = Physics2D.OverlapCircleAll((Vector2)transform.position, 0.7f, 1);
-        if (colliders.Length > 1)
+        Collider2D[] ahead = Physics2D.OverlapCircleAll((Vector2)transform.position + 0.5f * velocity, 0.7f, 1);
+        if (ahead.Length > 1)
         {
-            if (colliders.Length == 2)
+            foreach (Collider2D other in ahead)
             {
-                Collider2D other = colliders[0] != collider ? colliders[0] : colliders[1];
+                if (other == collider) continue;
                 Civilian c = other.GetComponent<Civilian>();
                 if (c != null)
                 {
-                    c.Avoid(this);
-                    Avoid(c);
+                    c.Avoid(this, Time.deltaTime * 2);
+                    Avoid(c, Time.deltaTime);
                 }
                 transform.position += (Vector3)velocity * Time.deltaTime * speed;
             }
-            else
+        }
+
+        Collider2D[] ontop = Physics2D.OverlapCircleAll((Vector2)transform.position, 0.7f, 1);
+        if (ontop.Length > 1) {
+            Vector2 move = Vector2.zero;
+            foreach (Collider2D collider in ontop)
             {
-                Vector2 move = Vector2.zero;
-                foreach (Collider2D collider in colliders)
+                Civilian c = collider.GetComponent<Civilian>();
+                if (c != null)
                 {
-                    Civilian c = collider.GetComponent<Civilian>();
-                    if (c != null)
-                    {
-                        move += (Vector2)transform.position - (Vector2)c.transform.position;
-                    }
-                    move.Normalize();
-                    transform.position += (Vector3)move * Time.deltaTime * speed;
+                    move += (Vector2)transform.position - (Vector2)c.transform.position;
                 }
+                move.Normalize();
+                transform.position += (Vector3)move * Time.deltaTime * speed;
             }
         } else
         {
