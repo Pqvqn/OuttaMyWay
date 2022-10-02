@@ -8,16 +8,16 @@ public class RoomGenerator : MonoBehaviour
     void Start()
     {
         int TOTAL_ROOMS = 10;
-        int TARGET_CIVILIANS = 250;
+        int TARGET_CIVILIANS = 0;
         List<SquareRoom> rooms = new List<SquareRoom>();
         SquareRoom lastRoom = null;
         int x = 0, y = 0;
         float totalArea = 0;
-        int vertSize = 4 * TOTAL_ROOMS;
+        int vertSize = 4 * TOTAL_ROOMS + 1;
         Vector2[] vertices = new Vector2[vertSize];
         for (int i = 0; i < TOTAL_ROOMS; i++)
         {
-            int width = Random.Range(6, 15), height = Random.Range(6, 12), dy = Random.Range(-height/2, height/2);
+            int width = Random.Range(8, 15), height = Random.Range(6, 12), dy = Random.Range(-height/2, height/2);
 
             SquareRoom room = new SquareRoom(x, x + width, y + dy + height / 2.0f, y + dy - height / 2.0f);
             totalArea += room.area;
@@ -27,26 +27,27 @@ public class RoomGenerator : MonoBehaviour
                 lastRoom.Next = room;
                 if (lastRoom.top < room.top)
                 {
-                    vertices[2 * i] = new Vector2(room.left, lastRoom.top);
-                    vertices[2 * i + 1] = new Vector2(room.left, room.top);
-                    vertices[vertSize - 2 * i] = new Vector2(lastRoom.right, room.bottom);
-                    vertices[vertSize - 2 * i - 1] = new Vector2(lastRoom.right, lastRoom.bottom);
+                    vertices[2 * i] = new Vector2(room.left - 1, lastRoom.top + 1);
+                    vertices[2 * i + 1] = new Vector2(room.left - 1, room.top + 1);
+                    vertices[vertSize - 2 * i - 1] = new Vector2(lastRoom.right + 1, room.bottom - 1);
+                    vertices[vertSize - 2 * i] = new Vector2(lastRoom.right + 1, lastRoom.bottom - 1);
                 } else
                 {
-                    vertices[2 * i] = new Vector2(lastRoom.right, lastRoom.top);
-                    vertices[2 * i + 1] = new Vector2(lastRoom.right, room.top);
-                    vertices[vertSize - 2 * i] = new Vector2(room.left, room.bottom);
-                    vertices[vertSize - 2 * i - 1] = new Vector2(room.left, lastRoom.bottom);
+                    vertices[2 * i] = new Vector2(lastRoom.right + 1, lastRoom.top + 1);
+                    vertices[2 * i + 1] = new Vector2(lastRoom.right + 1, room.top + 1);
+                    vertices[vertSize - 2 * i - 1] = new Vector2(room.left - 1, room.bottom - 1);
+                    vertices[vertSize - 2 * i] = new Vector2(room.left - 1, lastRoom.bottom - 1);
                 }
             } else
             {
-                vertices[0] = new Vector2(room.left, room.bottom);
-                vertices[1] = new Vector2(room.left, room.top);
+                vertices[0] = new Vector2(room.left - 1, room.bottom - 1);
+                vertices[vertSize-1] = new Vector2(room.left - 1, room.bottom - 1);
+                vertices[1] = new Vector2(room.left - 1, room.top + 1);
             }
             if (i == TOTAL_ROOMS - 1)
             {
-                vertices[vertSize - 2 * i - 3] = new Vector2(room.right, room.top);
-                vertices[vertSize - 2 * i - 2] = new Vector2(room.right, room.bottom);
+                vertices[vertSize - 2 * i - 3] = new Vector2(room.right + 1, room.top + 1);
+                vertices[vertSize - 2 * i - 2] = new Vector2(room.right + 1, room.bottom - 1);
             }
             lastRoom = room;
             rooms.Add(room);
@@ -54,7 +55,7 @@ public class RoomGenerator : MonoBehaviour
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Quad);
             go.transform.position = new Vector3(x + width / 2.0f, y + dy, 0);
             go.transform.localScale = new Vector3(width + 2, height + 2, 1);
-            x += width - 4;
+            x += width - 1;
             y += dy;
         }
         GetComponent<EdgeCollider2D>().SetPoints(new List<Vector2>(vertices));
