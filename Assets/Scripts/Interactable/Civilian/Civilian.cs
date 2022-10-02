@@ -112,7 +112,21 @@ public class Civilian : MonoBehaviour, IInteractable
 
     }
 
-    public IInteractable Holder { get; set; }
+    public IInteractable Holder;
+    public IInteractable Holdee;
+    public void Hold(IInteractable target, bool grab)
+    {
+        if (grab)
+        {
+            target.Holder = this;
+            Holdee = target;
+        }
+        else
+        {
+            target.Holder = null;
+            Holdee = null;
+        }
+    }
     public bool KnockDown()
     {
         throw new System.NotImplementedException();
