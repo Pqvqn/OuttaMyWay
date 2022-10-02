@@ -5,6 +5,7 @@ using UnityEngine;
 public class RoomGenerator : MonoBehaviour
 {
     public GameObject civilianPrefab;
+    public GameObject doorPrefab;
     void Start()
     {
         List<SquareRoom> rooms = new List<SquareRoom>();
@@ -31,6 +32,7 @@ public class RoomGenerator : MonoBehaviour
             x += width - 4;
             y += dy;
         }
+        Instantiate(doorPrefab, new Vector3(x + 5, y, 0), Quaternion.identity);
 
         int TARGET_CIVILIANS = 500;
         foreach (SquareRoom room in rooms)
