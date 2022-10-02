@@ -20,7 +20,7 @@ public class MusicController : MonoBehaviour
             audioSources[i].loop = true;
             audioSources[i].Play();
         }
-        audioSources[currentTrack].volume = 1;
+        if (currentTrack < audioSources.Length) audioSources[currentTrack].volume = 1;
     }
 
     // Update is called once per frame
