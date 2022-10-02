@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         collider = GetComponent<CircleCollider2D>();
-        qTransform = Quaternion.AngleAxis(Vector3.Angle(Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.forward), Vector3.up), Vector3.forward);
+        qTransform = Quaternion.AngleAxis(Vector3.Angle(Vector3.ProjectOnPlane(UnityEngine.Camera.main.transform.forward, Vector3.forward), Vector3.up), Vector3.forward);
     }
     void Start()
     {
