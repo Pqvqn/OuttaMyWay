@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, IInteractable
 {
+    private Animation animation;
     private Rigidbody2D rb;
     private CircleCollider2D collider;
     public InputAction playerControls;
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour, IInteractable
         }
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<CircleCollider2D>();
+        animation = GetComponent<Animation>();
         qTransform = Quaternion.AngleAxis(Vector3.Angle(Vector3.ProjectOnPlane(UnityEngine.Camera.main.transform.forward, Vector3.forward), Vector3.up), Vector3.forward);
     }
     void Start()
@@ -67,6 +69,16 @@ public class Player : MonoBehaviour, IInteractable
                     other.transform.position = (Vector2)transform.position + (collider.radius + Civilian.radius) * dir.normalized;
                 }
             }
+        }
+        if (velocity.magnitude > 0.1f)
+        {
+            transform.localScale = new Vector3(velocity.x > 0 ? -1 : 1, 1, 1);
+            animation.wrapMode = WrapMode.Loop;
+            animation.Play();
+        }
+        else
+        {
+            animation.wrapMode = WrapMode.Clamp;
         }
         rb.velocity = (Vector3) velocity * speed;
     }
