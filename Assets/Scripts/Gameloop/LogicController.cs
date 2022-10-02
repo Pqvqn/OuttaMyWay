@@ -7,6 +7,7 @@ using System;
 public class LogicController : MonoBehaviour
 {
     public TMP_Text timer;
+    public TMP_Text complete;
     public static LogicController instance;
     public void Awake()
     {
@@ -36,6 +37,7 @@ public class LogicController : MonoBehaviour
                     break;
                 case GameState.Intermission:
                     timer.text = (Game.deadline - Game.finish).ToString("F1");
+                    complete.text = "Level " + Game.level + " complete!";
                     MusicController.instance.currentTrack = 0;
                     break;
             }
@@ -47,6 +49,7 @@ public class LogicController : MonoBehaviour
             switch (Game.state)
             {
                 case GameState.Started:
+                    complete.text = "";
                     MusicController.instance.currentTrack = Time.time + 20 > Game.deadline ? 1 : 0;
                     if (Time.time > Game.deadline)
                     {
