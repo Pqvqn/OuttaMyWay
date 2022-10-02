@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Civilian : MonoBehaviour
+public class Civilian : MonoBehaviour, IInteractable
 {
     private CircleCollider2D collider;
     private static readonly float speed = 5;
@@ -45,6 +45,7 @@ public class Civilian : MonoBehaviour
 
     private float patience = 0;
     private Vector2 target = Vector2.zero, velocity = Vector2.zero;
+
     void FixedUpdate()
     {
         patience -= Time.deltaTime;
@@ -101,4 +102,19 @@ public class Civilian : MonoBehaviour
         }
         transform.position += (Vector3)velocity * Time.deltaTime * speed;
     }
+
+    public IInteractable Holder { get; set; }
+    public bool KnockDown()
+    {
+        throw new System.NotImplementedException();
+    }
+    public bool ApplyForce(Vector2 force)
+    {
+        throw new System.NotImplementedException();
+    }
+    public Vector2 HoldDirection()
+    {
+        throw new System.NotImplementedException();
+    }
+
 }

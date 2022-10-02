@@ -3,7 +3,7 @@
 public abstract class GenericShove : GenericAction
 {
     public float lastUse, cooldown, speed;
-    public GameObject target;
+    public IInteractable target;
     public ShoveInstance shoveInstance;
 
     public GenericShove(float cooldown, float speed) : base(ButtonContext.Released, ButtonContext.Pressing, false)
@@ -27,7 +27,7 @@ public abstract class GenericShove : GenericAction
         Vector2 playerPos = Player.instance.transform.position;
         shoveInstance.Initialize(this, playerPos, PlayerMouse.pos - playerPos, speed);
     }
-    public virtual void Hit(GameObject target)
+    public virtual void Hit(IInteractable target)
     {
         this.target = target;
         Debug.Log(target);

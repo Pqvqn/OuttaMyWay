@@ -4,7 +4,7 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IInteractable
 {
     private Rigidbody2D rb;
     private CircleCollider2D collider;
@@ -65,7 +65,22 @@ public class Player : MonoBehaviour
                 transform.position = (Vector2)other.transform.position + (collider.radius + Civilian.radius) * ((Vector2)(transform.position - other.transform.position)).normalized;
             }
         }
-        rb.velocity = velocity * speed;
-        //transform.position += (Vector3)  * Time.deltaTime;
+        rb.velocity = (Vector3) velocity * speed;
     }
+
+
+    public IInteractable Holder { get; set; }
+    public bool KnockDown()
+    {
+        throw new System.NotImplementedException();
+    }
+    public bool ApplyForce(Vector2 force)
+    {
+        throw new System.NotImplementedException();
+    }
+    public Vector2 HoldDirection()
+    {
+        throw new System.NotImplementedException();
+    }
+
 }
