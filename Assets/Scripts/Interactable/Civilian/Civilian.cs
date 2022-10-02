@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Civilian : MonoBehaviour, IInteractable
 {
+    [SerializeField] MeshRenderer hands;
     private Animation animation;
     private CircleCollider2D collider;
     private static readonly float speed = 5;
@@ -50,6 +51,8 @@ public class Civilian : MonoBehaviour, IInteractable
 
     void FixedUpdate()
     {
+        hands.enabled = Holder != null;
+
         patience -= Time.deltaTime;
         if (patience <= 0)
         {

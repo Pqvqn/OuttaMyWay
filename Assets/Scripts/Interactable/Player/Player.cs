@@ -105,6 +105,7 @@ public class Player : MonoBehaviour, IInteractable
         }
         else
         {
+            Player.instance.ShowHands();
             target.Holder = null;
             Holdee = null;
         }
