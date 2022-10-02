@@ -8,7 +8,7 @@ public class RoomGenerator : MonoBehaviour
     void Start()
     {
         int TOTAL_ROOMS = 10;
-        int TARGET_CIVILIANS = 0;
+        int TARGET_CIVILIANS = 250;
         List<SquareRoom> rooms = new List<SquareRoom>();
         SquareRoom lastRoom = null;
         int x = 0, y = 0;
@@ -29,12 +29,17 @@ public class RoomGenerator : MonoBehaviour
                 {
                     vertices[2 * i] = new Vector2(room.left - 1, lastRoom.top + 1);
                     vertices[2 * i + 1] = new Vector2(room.left - 1, room.top + 1);
-                    vertices[vertSize - 2 * i - 1] = new Vector2(lastRoom.right + 1, room.bottom - 1);
-                    vertices[vertSize - 2 * i] = new Vector2(lastRoom.right + 1, lastRoom.bottom - 1);
                 } else
                 {
                     vertices[2 * i] = new Vector2(lastRoom.right + 1, lastRoom.top + 1);
                     vertices[2 * i + 1] = new Vector2(lastRoom.right + 1, room.top + 1);
+                }
+                if (lastRoom.bottom < room.bottom)
+                {
+                    vertices[vertSize - 2 * i - 1] = new Vector2(lastRoom.right + 1, room.bottom - 1);
+                    vertices[vertSize - 2 * i] = new Vector2(lastRoom.right + 1, lastRoom.bottom - 1);
+                } else
+                {
                     vertices[vertSize - 2 * i - 1] = new Vector2(room.left - 1, room.bottom - 1);
                     vertices[vertSize - 2 * i] = new Vector2(room.left - 1, lastRoom.bottom - 1);
                 }
