@@ -101,7 +101,15 @@ public class Civilian : MonoBehaviour, IInteractable
             }
             velocity = Vector2.Lerp(velocity, repulsion, Time.deltaTime);
         }
-        transform.position += (Vector3)velocity * Time.deltaTime * speed;
+        if (Holder == null)
+        {
+            transform.position += (Vector3)velocity * Time.deltaTime * speed;
+        }
+        else
+        {
+            transform.position = Player.instance.Position() + Player.instance.HoldDirection() * 3;
+        }
+
     }
 
     public IInteractable Holder { get; set; }

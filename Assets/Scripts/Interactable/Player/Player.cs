@@ -84,7 +84,7 @@ public class Player : MonoBehaviour, IInteractable
     }
     public Vector2 HoldDirection()
     {
-        throw new System.NotImplementedException();
+        return (PlayerMouse.pos - Position()).normalized;
     }
 
     public Vector2 Position()
