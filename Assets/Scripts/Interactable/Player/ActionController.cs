@@ -49,6 +49,10 @@ public class ActionController : MonoBehaviour {
         if (context.currentAction != null)
         {
             attemptFire = context.currentAction.FixedUpdate(context);
+            if(attemptFire && context.currentAction.State == ActionState.Dead)
+            {
+                context.currentAction = null; 
+            }
         }
 
         bool pushes = push.ReadValue<float>()  > 0.5f;

@@ -14,13 +14,15 @@ public class ShoveInstance : MonoBehaviour
     private static GameObject prefab = null;
     //private Vector2 dir = new Vector2(1,1);
     private float speed = 1f;
+    private float timeLeft = 0f;
     private GenericShove shove;
-    public void Initialize(GenericShove shove, Vector2 pos, Vector2 dir, float speed)
+    public void Initialize(GenericShove shove, Vector2 pos, Vector2 dir, float speed, float lifetime)
     {
         transform.position = pos;
         this.shove = shove;
         //this.dir = dir;
         this.speed = speed;
+        this.timeLeft = lifetime;
         transform.rotation = Quaternion.LookRotation(dir, Vector3.forward);
     }
     public void FixedUpdate()
@@ -34,6 +36,11 @@ public class ShoveInstance : MonoBehaviour
             {
                 shove.Hit(target);
             }
+        }
+        timeLeft -= Time.deltaTime;
+        if(timeLeft <= 0)
+        {
+            shove.EndShove();
         }
     }
 }

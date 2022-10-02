@@ -44,7 +44,7 @@ public class Civilian : MonoBehaviour, IInteractable
     }
 
     private float patience = 0;
-    private Vector2 target = Vector2.zero, velocity = Vector2.zero;
+    private Vector2 target = Vector2.zero, velocity = Vector2.zero, knockback = Vector2.zero;
 
     void FixedUpdate()
     {
@@ -79,6 +79,13 @@ public class Civilian : MonoBehaviour, IInteractable
         }
 
         velocity = Vector2.Lerp(velocity, (target - (Vector2)transform.position).normalized, Time.deltaTime);
+
+        if(knockback.magnitude > .1)
+        {
+            velocity = knockback;
+            knockback *= 1 - Time.deltaTime*50;
+        }
+
         Collider2D[] around = Physics2D.OverlapCircleAll((Vector2)transform.position, 3f, 1 << 7);
         if (around.Length > 1)
         {
@@ -110,11 +117,17 @@ public class Civilian : MonoBehaviour, IInteractable
     }
     public bool ApplyForce(Vector2 force)
     {
-        throw new System.NotImplementedException();
+        knockback = force/mass;
+        return true;
     }
     public Vector2 HoldDirection()
     {
         throw new System.NotImplementedException();
+    }
+
+    public Vector2 Position()
+    {
+        return transform.position;
     }
 
 }
