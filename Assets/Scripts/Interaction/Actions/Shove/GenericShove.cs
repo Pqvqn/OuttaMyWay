@@ -30,7 +30,6 @@ public abstract class GenericShove : GenericAction
     public virtual void Hit(IInteractable target)
     {
         this.target = target;
-        Debug.Log(target);
         SetStale(true);
     }
     public override void Abort() {

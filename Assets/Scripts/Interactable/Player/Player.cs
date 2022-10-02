@@ -62,7 +62,10 @@ public class Player : MonoBehaviour, IInteractable
             if (c!=null)
             {
                 velocity += c.Collision(transform.position, velocity, mass);
-                transform.position = (Vector2)other.transform.position + (collider.radius + Civilian.radius) * ((Vector2)(transform.position - other.transform.position)).normalized;
+                Vector2 dir = other.transform.position - transform.position;
+                if (dir.magnitude < (collider.radius + Civilian.radius)) {
+                    other.transform.position = (Vector2)transform.position + (collider.radius + Civilian.radius) * dir.normalized;
+                }
             }
         }
         rb.velocity = (Vector3) velocity * speed;

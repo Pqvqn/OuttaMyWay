@@ -79,26 +79,20 @@ public class Civilian : MonoBehaviour, IInteractable
         }
 
         velocity = Vector2.Lerp(velocity, (target - (Vector2)transform.position).normalized, Time.deltaTime);
-        Collider2D[] around = Physics2D.OverlapCircleAll((Vector2)transform.position, 3f, 1 << 7);
+        Collider2D[] around = Physics2D.OverlapCircleAll((Vector2)transform.position, 3f, 1 << 7 | 1 << 8);
         if (around.Length > 1)
         {
-            Vector2 gravity = Vector2.zero;
+            Vector2 repulsion = Vector2.zero;
             foreach (Collider2D other in around)
             {
                 if (other == collider) continue;
-                Civilian c = other.GetComponent<Civilian>();
-                if (c != null)
+                Repulsion r = other.GetComponent<Repulsion>();
+                if (r != null)
                 {
-                    Vector2 dir = (Vector2)transform.position - (Vector2)c.transform.position;
-                    float sqrMag = dir.SqrMagnitude();
-                    if (sqrMag > 0.1f)
-                    {
-                        sqrMag *= sqrMag;
-                        gravity += 3 * dir / sqrMag;
-                    }
+                    repulsion += r.CalcRepulsion(transform.position);
                 }
             }
-            velocity = Vector2.Lerp(velocity, gravity, Time.deltaTime);
+            velocity = Vector2.Lerp(velocity, repulsion, Time.deltaTime);
         }
         transform.position += (Vector3)velocity * Time.deltaTime * speed;
     }

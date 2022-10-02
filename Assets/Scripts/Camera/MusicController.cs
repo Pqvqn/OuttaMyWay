@@ -8,7 +8,18 @@ public class MusicController : MonoBehaviour
     [SerializeField] float fadeTime = 1;
     public int currentTrack = 0;
     AudioSource[] audioSources;
-    // Start is called before the first frame update
+    public static MusicController instance;
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        } else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         audioSources = new AudioSource[tracks.Length];
@@ -22,8 +33,6 @@ public class MusicController : MonoBehaviour
         }
         audioSources[currentTrack].volume = 1;
     }
-
-    // Update is called once per frame
     void Update()
     {
         for (int i = 0; i < audioSources.Length; i++)
@@ -43,6 +52,27 @@ public class MusicController : MonoBehaviour
                     audioSources[i].volume = Mathf.Max(currentVolume - Time.deltaTime / fadeTime, 0);
                 }
             }
+        }
+    }
+    public void SetTime(float time)
+    {
+        foreach (AudioSource s in audioSources)
+        {
+            s.time = time;
+        }
+    }
+    public void Pause()
+    {
+        foreach (AudioSource s in audioSources)
+        {
+            s.Pause();
+        }
+    }
+    public void UnPause()
+    {
+        foreach (AudioSource s in audioSources)
+        {
+            s.UnPause();
         }
     }
 }

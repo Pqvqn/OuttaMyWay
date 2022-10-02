@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 1866215897980578451}
   - component: {fileID: 1866215897980578450}
   - component: {fileID: 1866215897980578449}
+  - component: {fileID: -3104886882541556944}
   m_Layer: 7
   m_Name: Civilian
   m_TagString: Untagged
@@ -162,6 +163,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-3104886882541556944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866215897980578448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e145ac9c15cb44bbfb4f69591e9c73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magnitude: 3
+  closeCutoff: 0.1
+  sqrRadius: 0
 --- !u!1 &1941621380604440145
 GameObject:
   m_ObjectHideFlags: 0
