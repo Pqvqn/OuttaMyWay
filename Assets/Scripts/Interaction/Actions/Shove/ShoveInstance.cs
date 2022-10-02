@@ -19,6 +19,7 @@ public class ShoveInstance : MonoBehaviour
     public void Initialize(GenericShove shove, Vector2 pos, Vector2 dir, float speed, float lifetime)
     {
         transform.position = pos;
+        transform.parent = Player.instance.transform;
         this.shove = shove;
         //this.dir = dir;
         this.speed = speed;

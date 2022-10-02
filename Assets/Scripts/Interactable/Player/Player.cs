@@ -9,7 +9,7 @@ public class Player : MonoBehaviour, IInteractable
     private Rigidbody2D rb;
     private CircleCollider2D collider;
     public InputAction playerControls;
-    Vector2 moveDirection = Vector2.zero;
+    Vector2 moveDirection = Vector2.zero; //, knockback = Vector2.zero;
     [SerializeField] float acceleration = 7f;
     [SerializeField] float speed = 10f;
     [SerializeField] float mass = 0.5f;
@@ -76,7 +76,8 @@ public class Player : MonoBehaviour, IInteractable
     }
     public bool ApplyForce(Vector2 force)
     {
-        throw new System.NotImplementedException();
+        velocity = force / mass;
+        return true;
     }
     public Vector2 HoldDirection()
     {

@@ -20,6 +20,13 @@ public abstract class GenericAction : IAction
 
     public virtual bool CanFire(ActionContext context)
     {
+        /*if (context.currentAction != null) {
+            Debug.Log(context.currentAction.State);
+        } 
+        else
+        {
+            Debug.Log("null");
+        }*/
         return context.push == requiredPush && context.pull == requiredPull && (canInterrupt || context.currentAction == null || context.currentAction.State==ActionState.Dead);
     }
     public virtual void Fire(ActionContext context)
@@ -33,15 +40,6 @@ public abstract class GenericAction : IAction
     }
     public virtual bool FixedUpdate(ActionContext context)
     {
-        if (state == ActionState.Stale)
-        {
-            timeLeft -= Time.deltaTime;
-            if (timeLeft <= 0)
-            {
-                state = ActionState.Dead;
-            }
-        }
-
         if (lastState!=state)
         {
             if (state == ActionState.Stale)
@@ -51,6 +49,14 @@ public abstract class GenericAction : IAction
 
             lastState = state;
             return true;
+        }
+        if (state == ActionState.Stale)
+        {
+            timeLeft -= Time.deltaTime;
+            if (timeLeft <= 0)
+            {
+                state = ActionState.Dead;
+            }
         }
         return false;
 
