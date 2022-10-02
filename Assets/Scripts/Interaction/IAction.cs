@@ -5,5 +5,5 @@
     public bool FixedUpdate(ActionContext context);
     public void Abort();
     public short Complexity { get; }
-    public float Stale { get; }
+    public ActionState State { get; }
 }

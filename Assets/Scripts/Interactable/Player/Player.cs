@@ -86,4 +86,9 @@ public class Player : MonoBehaviour, IInteractable
         throw new System.NotImplementedException();
     }
 
+    public Vector2 Position()
+    {
+        return rb.position;
+    }
+
 }
