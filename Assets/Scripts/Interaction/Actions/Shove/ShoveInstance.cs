@@ -29,7 +29,11 @@ public class ShoveInstance : MonoBehaviour
         Collider2D[] overlap = Physics2D.OverlapBoxAll(transform.position + transform.forward * 0.25f, new Vector2(0.5f, 1f), transform.rotation.eulerAngles.x, 1 << 7);
         foreach (Collider2D col in overlap)
         {
-            shove.Hit(col.gameObject);
+            IInteractable target = col.gameObject.GetComponent<IInteractable>();
+            if (target != null)
+            {
+                shove.Hit(target);
+            }
         }
     }
 }
