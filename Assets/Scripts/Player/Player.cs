@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    private Rigidbody2D rb;
     private CircleCollider2D collider;
     public InputAction playerControls;
     Vector2 moveDirection = Vector2.zero;
@@ -24,14 +25,25 @@ public class Player : MonoBehaviour
         playerControls.Disable();
     }
 
+    public static Player instance;
     Quaternion qTransform = new Quaternion();
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        } else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<CircleCollider2D>();
         qTransform = Quaternion.AngleAxis(Vector3.Angle(Vector3.ProjectOnPlane(UnityEngine.Camera.main.transform.forward, Vector3.forward), Vector3.up), Vector3.forward);
     }
     void Start()
     {
+        ActionKnowledge.Clear();
     }
 
     void Update()
@@ -53,6 +65,7 @@ public class Player : MonoBehaviour
                 transform.position = (Vector2)other.transform.position + (collider.radius + Civilian.radius) * ((Vector2)(transform.position - other.transform.position)).normalized;
             }
         }
-        transform.position += (Vector3) velocity * speed * Time.deltaTime;
+        rb.velocity = velocity * speed;
+        //transform.position += (Vector3)  * Time.deltaTime;
     }
 }
