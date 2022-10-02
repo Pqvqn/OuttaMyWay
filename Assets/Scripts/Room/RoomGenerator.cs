@@ -13,7 +13,7 @@ public class RoomGenerator : MonoBehaviour
         float totalArea = 0;
         for (int i = 0; i < 10; i++)
         {
-            int width = Random.Range(10, 30), height = Random.Range(3, 6) * Random.Range(3, 6), dy = Random.Range(-height/2, height/2);
+            int width = Random.Range(6, 15), height = Random.Range(6, 12), dy = Random.Range(-height/2, height/2);
 
             SquareRoom room = new SquareRoom(x, x + width, y + dy + height / 2.0f, y + dy - height / 2.0f);
             totalArea += room.area;
@@ -32,7 +32,7 @@ public class RoomGenerator : MonoBehaviour
             y += dy;
         }
 
-        int TARGET_CIVILIANS = 1000;
+        int TARGET_CIVILIANS = 250;
         foreach (SquareRoom room in rooms)
         {
             int citizens = Mathf.FloorToInt(TARGET_CIVILIANS * room.area / totalArea);

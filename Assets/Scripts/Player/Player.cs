@@ -23,8 +23,17 @@ public class Player : MonoBehaviour
         playerControls.Disable();
     }
 
+    public static Player instance;
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        } else
+        {
+            Destroy(gameObject);
+            return;
+        }
         collider = GetComponent<CircleCollider2D>();
     }
 
