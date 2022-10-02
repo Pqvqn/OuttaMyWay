@@ -107,7 +107,7 @@ public class Civilian : MonoBehaviour, IInteractable
         }
         else
         {
-            transform.position = Player.instance.Position() + Player.instance.HoldDirection() * 3;
+            transform.position = Player.instance.Position() + Player.instance.HoldDirection() * 1.2f;
         }
 
     }

@@ -42,11 +42,12 @@ public class GenericGrab : GenericAction
         }
         GameObject.Destroy(grabInstance.gameObject);
         state = ActionState.Stale;
-        target.Holder = null;
+        //target.Holder = null;
     }
 
     public override void Abort()
     {
+        EndGrab();
         base.Abort();
     }
 }
