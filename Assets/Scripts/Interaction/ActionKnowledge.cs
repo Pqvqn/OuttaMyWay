@@ -6,7 +6,7 @@ public static class ActionKnowledge
 
     public static void Clear()
     {
-        actions = new List<IAction>() { new DefaultShove(), new DefaultGrab(), new Release() };
+        actions = new List<IAction>() { new DefaultShove(), new DefaultGrab(), new Release(), new Throw()};
     }
     
     public static IAction FindAction(ActionContext context)
