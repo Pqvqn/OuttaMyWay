@@ -112,8 +112,8 @@ public class Civilian : MonoBehaviour, IInteractable
 
     }
 
-    public IInteractable Holder;
-    public IInteractable Holdee;
+    public IInteractable Holder { get; set; }
+    public IInteractable Holdee { get; set; }
     public void Hold(IInteractable target, bool grab)
     {
         if (grab)

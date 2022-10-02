@@ -31,7 +31,7 @@ public class GenericGrab : GenericAction
     public virtual void Hit(IInteractable target)
     {
         this.target = target;
-        target.Holder = Player.instance;
+        Player.instance.Hold(target, true);
     }
 
     public void EndGrab()

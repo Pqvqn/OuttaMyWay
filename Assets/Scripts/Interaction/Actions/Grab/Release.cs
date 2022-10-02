@@ -6,27 +6,21 @@ public class Release : GenericAction
 {
     public IInteractable target;
     public GrabInstance grabInstance;
-    public override short Complexity { get; }
-    public Release() : base(ButtonContext.Releasing, ButtonContext.Released, false, 0.5f)
+    public override short Complexity { get => 2; }
+    public Release() : base(ButtonContext.Released, ButtonContext.Released, false, 0.5f)
     {
         
     }
     public override bool CanFire(ActionContext context)
     {
-        return base.CanFire(context);
+        return base.CanFire(context) && Player.instance.Holdee != null;
     }
     public override void Fire(ActionContext context)
     {
         base.Fire(context);
-        /*target = null;
-        grabInstance = GameObject.Instantiate(GrabInstance.Prefab).GetComponent<GrabInstance>();
-        Vector2 playerPos = Player.instance.transform.position;
-        grabInstance.Initialize(this, playerPos, PlayerMouse.pos - playerPos, speed, lifetime);*/
-    }
-    public virtual void Hit(IInteractable target)
-    {
-        /*this.target = target;
-        target.Holder = Player.instance;*/
+        target = Player.instance.Holdee;
+        Player.instance.Hold(target, false);
+        state = ActionState.Stale;
     }
 
     public override void Abort()
