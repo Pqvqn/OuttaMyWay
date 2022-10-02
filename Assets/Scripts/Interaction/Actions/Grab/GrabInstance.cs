@@ -33,6 +33,12 @@ public class GrabInstance : MonoBehaviour
     public void FixedUpdate()
     {
         transform.position += transform.forward * speed * Time.deltaTime;
+        timeLeft -= Time.deltaTime;
+        if (timeLeft <= 0)
+        {
+            grab.EndGrab();
+            return;
+        }
         Collider2D[] overlap = Physics2D.OverlapBoxAll(transform.position + transform.forward * 0.25f, new Vector2(0.5f, 1f), transform.rotation.eulerAngles.x, 1 << 7);
         foreach (Collider2D col in overlap)
         {
@@ -40,12 +46,9 @@ public class GrabInstance : MonoBehaviour
             if (target != null)
             {
                 grab.Hit(target);
+                grab.EndGrab();
             }
         }
-        timeLeft -= Time.deltaTime;
-        if (timeLeft <= 0)
-        {
-            grab.EndGrab();
-        }
+        
     }
 }

@@ -122,12 +122,26 @@ public class Civilian : MonoBehaviour, IInteractable
         }
         else
         {
-            transform.position = Player.instance.Position() + Player.instance.HoldDirection() * 3;
+            transform.position = Player.instance.Position() + Player.instance.HoldDirection() * 1.2f;
         }
 
     }
 
     public IInteractable Holder { get; set; }
+    public IInteractable Holdee { get; set; }
+    public void Hold(IInteractable target, bool grab)
+    {
+        if (grab)
+        {
+            target.Holder = this;
+            Holdee = target;
+        }
+        else
+        {
+            target.Holder = null;
+            Holdee = null;
+        }
+    }
     public bool KnockDown()
     {
         throw new System.NotImplementedException();

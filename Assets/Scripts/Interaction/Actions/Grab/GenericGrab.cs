@@ -31,7 +31,7 @@ public class GenericGrab : GenericAction
     public virtual void Hit(IInteractable target)
     {
         this.target = target;
-        target.Holder = Player.instance;
+        Player.instance.Hold(target, true);
     }
 
     public void EndGrab()
@@ -42,11 +42,12 @@ public class GenericGrab : GenericAction
         }
         GameObject.Destroy(grabInstance.gameObject);
         state = ActionState.Stale;
-        target.Holder = null;
+        //target.Holder = null;
     }
 
     public override void Abort()
     {
+        EndGrab();
         base.Abort();
     }
 }
