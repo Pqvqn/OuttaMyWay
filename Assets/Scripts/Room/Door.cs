@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("the door appears");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("It just works");
+        if (Game.state == GameState.Started)
+        {
+            Player p = collision.gameObject.GetComponent<Player>();
+            if (p != null)
+            {
+                Game.finish = Time.time;
+                Game.state = GameState.Intermission;
+            }
+        }
     }
 }

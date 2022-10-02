@@ -9,6 +9,7 @@ public class SquareRoom : IRoom
     public float top { get; private set; }
     public float bottom { get; private set; }
     public float area { get { return (right - left) * (top - bottom);} }
+    public Vector2 center { get { return new Vector2((left + right) * 0.5f, (bottom + top) * 0.5f); } }
     public IRoom Prev { get; set; }
     public IRoom Next { get; set; }
     public SquareRoom(float left, float right, float top, float bottom)
