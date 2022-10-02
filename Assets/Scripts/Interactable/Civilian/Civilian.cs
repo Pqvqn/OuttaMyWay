@@ -107,7 +107,7 @@ public class Civilian : MonoBehaviour, IInteractable
         }
         else
         {
-            transform.position = Player.instance.Position() + Player.instance.HoldDirection() * 1.2f;
+            transform.position = Vector3.Lerp(transform.position, Player.instance.Position() + Player.instance.HoldDirection() * 1.5f, Time.deltaTime * 10);
         }
 
     }

@@ -59,7 +59,7 @@ public class Player : MonoBehaviour, IInteractable
         foreach (Collider2D other in around)
         {
             Civilian c = other.GetComponent<Civilian>();
-            if (c!=null)
+            if (c!=null && c != Holdee)
             {
                 velocity += c.Collision(transform.position, velocity, mass);
                 Vector2 dir = other.transform.position - transform.position;
@@ -68,7 +68,7 @@ public class Player : MonoBehaviour, IInteractable
                 }
             }
         }
-        rb.velocity = (Vector3) velocity * speed;
+        rb.velocity = (Vector3) velocity * speed * (Holdee != null ? 0.2f : 1f);
     }
 
 
@@ -78,6 +78,10 @@ public class Player : MonoBehaviour, IInteractable
     {
         if (grab)
         {
+            if (Holdee != null)
+            {
+                Holdee.Holder = null;
+            }
             target.Holder = this;
             Holdee = target;
         }
