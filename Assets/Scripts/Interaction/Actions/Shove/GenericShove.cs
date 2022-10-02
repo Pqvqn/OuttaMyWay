@@ -2,15 +2,16 @@
 
 public abstract class GenericShove : GenericAction
 {
-    public float speed, force, lifetime;
+    public float speed, force, lifetime, recoil;
     public IInteractable target;
     public ShoveInstance shoveInstance;
 
-    public GenericShove(float cooldown, float lifetime, float speed, float force) : base(ButtonContext.Released, ButtonContext.Pressing, false, cooldown)
+    public GenericShove(float cooldown, float lifetime, float speed, float force, float recoil) : base(ButtonContext.Released, ButtonContext.Pressing, false, cooldown)
     {
         this.speed = speed;
         this.force = force;
         this.lifetime = lifetime;
+        this.recoil = recoil;
     }
 
     public override bool CanFire(ActionContext context)
@@ -28,7 +29,10 @@ public abstract class GenericShove : GenericAction
     public virtual void Hit(IInteractable target)
     {
         this.target = target;
-        target.ApplyForce((target.Position() - Player.instance.Position()).normalized * force);
+        Vector2 direction = (target.Position() - Player.instance.Position()).normalized;
+        target.ApplyForce(direction * force);
+        Player.instance.ApplyForce(direction * recoil * -1);
+        //EndShove();
     }
 
     public void EndShove()

@@ -103,6 +103,7 @@ public class Civilian : MonoBehaviour, IInteractable
             }
             velocity = Vector2.Lerp(velocity, repulsion, Time.deltaTime);
         }
+
         if (velocity.magnitude > 0.3f)
         {
             transform.localScale = new Vector3(velocity.x > 0 ? -1 : 1, 1, 1);
@@ -114,6 +115,16 @@ public class Civilian : MonoBehaviour, IInteractable
             animation.wrapMode = WrapMode.Clamp;
         }
         transform.position += (Vector3)velocity * Time.deltaTime * speed;
+
+        if (Holder == null)
+        {
+            transform.position += (Vector3)velocity * Time.deltaTime * speed;
+        }
+        else
+        {
+            transform.position = Player.instance.Position() + Player.instance.HoldDirection() * 3;
+        }
+
     }
 
     public IInteractable Holder { get; set; }

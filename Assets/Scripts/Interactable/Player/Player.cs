@@ -10,11 +10,21 @@ public class Player : MonoBehaviour, IInteractable
     private Rigidbody2D rb;
     private CircleCollider2D collider;
     public InputAction playerControls;
-    Vector2 moveDirection = Vector2.zero;
+    Vector2 moveDirection = Vector2.zero; //, knockback = Vector2.zero;
     [SerializeField] float acceleration = 7f;
     [SerializeField] float speed = 10f;
     [SerializeField] float mass = 0.5f;
+    [SerializeField] Transform flipper;
+    [SerializeField] MeshRenderer hands;
 
+    public void ShowHands()
+    {
+        hands.enabled = true;
+    }
+    public void HideHands()
+    {
+        hands.enabled = false;
+    }
 
     private void OnEnable()
     {
@@ -72,7 +82,7 @@ public class Player : MonoBehaviour, IInteractable
         }
         if (velocity.magnitude > 0.1f)
         {
-            transform.localScale = new Vector3(velocity.x > 0 ? -1 : 1, 1, 1);
+            flipper.localScale = new Vector3(velocity.x > 0 ? -1 : 1, 1, 1);
             animation.wrapMode = WrapMode.Loop;
             animation.Play();
         }
@@ -91,11 +101,12 @@ public class Player : MonoBehaviour, IInteractable
     }
     public bool ApplyForce(Vector2 force)
     {
-        throw new System.NotImplementedException();
+        velocity = force / mass;
+        return true;
     }
     public Vector2 HoldDirection()
     {
-        throw new System.NotImplementedException();
+        return (PlayerMouse.pos - Position()).normalized;
     }
 
     public Vector2 Position()

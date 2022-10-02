@@ -33,15 +33,6 @@ public abstract class GenericAction : IAction
     }
     public virtual bool FixedUpdate(ActionContext context)
     {
-        if (state == ActionState.Stale)
-        {
-            timeLeft -= Time.deltaTime;
-            if (timeLeft <= 0)
-            {
-                state = ActionState.Dead;
-            }
-        }
-
         if (lastState!=state)
         {
             if (state == ActionState.Stale)
@@ -51,6 +42,14 @@ public abstract class GenericAction : IAction
 
             lastState = state;
             return true;
+        }
+        if (state == ActionState.Stale)
+        {
+            timeLeft -= Time.deltaTime;
+            if (timeLeft <= 0)
+            {
+                state = ActionState.Dead;
+            }
         }
         return false;
 
