@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        moveDirection = Quaternion.Euler(0, 0, -45) * -playerControls.ReadValue<Vector2>();
+        moveDirection = -playerControls.ReadValue<Vector2>();
     }
 
     Vector2 velocity = Vector2.zero;

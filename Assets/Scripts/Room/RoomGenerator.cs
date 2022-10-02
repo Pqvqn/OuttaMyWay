@@ -32,7 +32,7 @@ public class RoomGenerator : MonoBehaviour
             y += dy;
         }
 
-        int TARGET_CIVILIANS = 1000;
+        int TARGET_CIVILIANS = 500;
         foreach (SquareRoom room in rooms)
         {
             int citizens = Mathf.FloorToInt(TARGET_CIVILIANS * room.area / totalArea);
