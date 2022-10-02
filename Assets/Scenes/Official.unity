@@ -222,6 +222,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2827329449322017071, guid: 235545eba38ffe343a660e9c6f37f8d0, type: 3}
   m_PrefabInstance: {fileID: 2014358397}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &279149825 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 279149825, guid: 235545eba38ffe343a660e9c6f37f8d0, type: 3}
+  m_PrefabInstance: {fileID: 2014358397}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &325215745
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,6 +655,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2827329449322017105, guid: 235545eba38ffe343a660e9c6f37f8d0, type: 3}
+      propertyPath: hands
+      value: 
+      objectReference: {fileID: 279149825}
     - target: {fileID: 2827329449322017107, guid: 235545eba38ffe343a660e9c6f37f8d0, type: 3}
       propertyPath: m_RootOrder
       value: 0

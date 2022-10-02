@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Civilian : MonoBehaviour, IInteractable
 {
+    [SerializeField] MeshRenderer hands;
+    private Animation animation;
     private CircleCollider2D collider;
     private static readonly float speed = 5;
     private static readonly float mass = 1;
@@ -13,6 +15,7 @@ public class Civilian : MonoBehaviour, IInteractable
     void Awake()
     {
         collider = GetComponent<CircleCollider2D>();
+        animation = GetComponent<Animation>();
     }
 
     void Start()
@@ -48,6 +51,8 @@ public class Civilian : MonoBehaviour, IInteractable
 
     void FixedUpdate()
     {
+        hands.enabled = Holder != null;
+
         patience -= Time.deltaTime;
         if (patience <= 0)
         {
@@ -101,6 +106,19 @@ public class Civilian : MonoBehaviour, IInteractable
             }
             velocity = Vector2.Lerp(velocity, repulsion, Time.deltaTime);
         }
+
+        if (velocity.magnitude > 0.3f)
+        {
+            transform.localScale = new Vector3(velocity.x > 0 ? -1 : 1, 1, 1);
+            animation.wrapMode = WrapMode.Loop;
+            animation.Play();
+        }
+        else
+        {
+            animation.wrapMode = WrapMode.Clamp;
+        }
+        transform.position += (Vector3)velocity * Time.deltaTime * speed;
+
         if (Holder == null)
         {
             transform.position += (Vector3)velocity * Time.deltaTime * speed;

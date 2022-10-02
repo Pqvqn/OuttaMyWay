@@ -22,9 +22,9 @@ public class RoomGenerator : MonoBehaviour
     private GameObject levelParent;
     public void NextLevel() {
         Game.level += 1;
-        int TOTAL_ROOMS = 9 + Game.level;
+        int TOTAL_ROOMS = 9;
         int TARGET_OBSTACLES = TOTAL_ROOMS + Game.level * 4;
-        int TARGET_CIVILIANS = TOTAL_ROOMS * (25 + Game.level);
+        int TARGET_CIVILIANS = 250;
         if (levelParent != null)
         {
             Destroy(levelParent);
@@ -38,7 +38,7 @@ public class RoomGenerator : MonoBehaviour
         Vector2[] vertices = new Vector2[vertSize];
         for (int i = 0; i < TOTAL_ROOMS; i++)
         {
-            int width = Random.Range(8, 15), height = Random.Range(6, 12), dy = Random.Range(-height/2, height/2);
+            int width = Random.Range(8, 15), height = Random.Range(Mathf.Max(4, 6 - Game.level / 2), Mathf.Max(6,12 - Game.level / 3)), dy = Random.Range(-height/2, height/2);
 
             SquareRoom room = new SquareRoom(x, x + width, y + dy + height / 2.0f, y + dy - height / 2.0f);
             totalArea += room.area;

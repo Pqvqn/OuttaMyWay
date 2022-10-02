@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, IInteractable
 {
+    private Animation animation;
     private Rigidbody2D rb;
     private CircleCollider2D collider;
     public InputAction playerControls;
@@ -13,7 +14,17 @@ public class Player : MonoBehaviour, IInteractable
     [SerializeField] float acceleration = 7f;
     [SerializeField] float speed = 10f;
     [SerializeField] float mass = 0.5f;
+    [SerializeField] Transform flipper;
+    [SerializeField] MeshRenderer hands;
 
+    public void ShowHands()
+    {
+        hands.enabled = true;
+    }
+    public void HideHands()
+    {
+        hands.enabled = false;
+    }
 
     private void OnEnable()
     {
@@ -39,6 +50,7 @@ public class Player : MonoBehaviour, IInteractable
         }
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<CircleCollider2D>();
+        animation = GetComponent<Animation>();
         qTransform = Quaternion.AngleAxis(Vector3.Angle(Vector3.ProjectOnPlane(UnityEngine.Camera.main.transform.forward, Vector3.forward), Vector3.up), Vector3.forward);
     }
     void Start()
@@ -68,6 +80,16 @@ public class Player : MonoBehaviour, IInteractable
                 }
             }
         }
+        if (velocity.magnitude > 0.1f)
+        {
+            flipper.localScale = new Vector3(velocity.x > 0 ? -1 : 1, 1, 1);
+            animation.wrapMode = WrapMode.Loop;
+            animation.Play();
+        }
+        else
+        {
+            animation.wrapMode = WrapMode.Clamp;
+        }
         rb.velocity = (Vector3) velocity * speed * (Holdee != null ? 0.2f : 1f);
     }
 
@@ -87,6 +109,7 @@ public class Player : MonoBehaviour, IInteractable
         }
         else
         {
+            Player.instance.ShowHands();
             target.Holder = null;
             Holdee = null;
         }
