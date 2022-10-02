@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
     }
 
     public static Player instance;
+    Quaternion qTransform = new Quaternion();
     void Awake()
     {
         if (instance == null)
@@ -35,15 +37,15 @@ public class Player : MonoBehaviour
             return;
         }
         collider = GetComponent<CircleCollider2D>();
+        qTransform = Quaternion.AngleAxis(Vector3.Angle(Vector3.ProjectOnPlane(UnityEngine.Camera.main.transform.forward, Vector3.forward), Vector3.up), Vector3.forward);
     }
-
     void Start()
-    { 
+    {
     }
 
     void Update()
     {
-        moveDirection = Quaternion.Euler(0, 0, -45) * -playerControls.ReadValue<Vector2>();
+        moveDirection = qTransform * playerControls.ReadValue<Vector2>();
     }
 
     Vector2 velocity = Vector2.zero;
