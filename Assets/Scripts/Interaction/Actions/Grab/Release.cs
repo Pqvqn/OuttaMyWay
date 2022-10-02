@@ -7,7 +7,7 @@ public class Release : GenericAction
     public IInteractable target;
     public GrabInstance grabInstance;
     public override short Complexity { get => 2; }
-    public Release() : base(ButtonContext.Released, ButtonContext.Released, false, 0.5f)
+    public Release() : base(ButtonContext.Released, ButtonContext.Released, false, 0f)
     {
         
     }
